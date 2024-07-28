@@ -13,6 +13,7 @@ export const PopUpPage = lazy(() => import('src/pages/popups'));
 export const CreateUserPage = lazy(() => import('src/pages/createuser'));
 export const PopupReadersPage = lazy(() => import('src/pages/popup-readers'));
 export const CreatePopupView = lazy(() => import('src/pages/createpopup'));
+export const AccessDeniedView = lazy(() => import('src/pages/access-denied'));
 
 // ----------------------------------------------------------------------
 
@@ -46,8 +47,12 @@ export default function Router() {
       element: <Page404 />,
     },
     {
+      path: 'access-denied',
+      element: <AccessDeniedView />,
+    },
+    {
       path: '*',
-      element: <Navigate to="/404" replace />,
+      element: <Navigate to="/access-denied" replace />,
     },
   ]);
 
