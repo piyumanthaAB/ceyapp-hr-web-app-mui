@@ -1,11 +1,12 @@
-import { useState } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -15,10 +16,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
 
+import { login } from 'src/redux/auth';
 import { bgGradient } from 'src/theme/css';
 
-import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
+
+import logo from '../../../public/assets/images/logo.png';
 
 // ----------------------------------------------------------------------
 
@@ -28,20 +31,38 @@ export default function LoginView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const { token,user,isAuthenticated } = useSelector((state) => state.authReducer);
 
   const handleClick = () => {
-    router.push('/dashboard');
+    const values = { Email, Password };
+    dispatch(login(values));
   };
-
+  
+  useEffect(() => {
+    console.log(user, token);
+    if (isAuthenticated && user && token) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, router, user, token]);
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField
+          name="email"
+          label="Email address"
+          value={Email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
         <TextField
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
+          value={Password}
+          onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -83,14 +104,6 @@ export default function LoginView() {
         height: 1,
       }}
     >
-      <Logo
-        sx={{
-          position: 'fixed',
-          top: { xs: 16, md: 24 },
-          left: { xs: 16, md: 24 },
-        }}
-      />
-
       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
         <Card
           sx={{
@@ -99,16 +112,28 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Sign in to Minimal</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <img src={logo} alt="Logo" style={{ width: '100px', marginBottom: '1rem' }} />{' '}
+            {/* Adjust the width and margin as needed */}
+          </Box>
+          <Typography variant="h4" sx={{ marginBottom: '1.5rem' }}>
+            Welcome 👋
+          </Typography>
 
-          <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
+          {/* <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
             Don’t have an account?
             <Link variant="subtitle2" sx={{ ml: 0.5 }}>
               Get started
             </Link>
-          </Typography>
+          </Typography> */}
 
-          <Stack direction="row" spacing={2}>
+          {/* <Stack direction="row" spacing={2}>
             <Button
               fullWidth
               size="large"
@@ -144,7 +169,7 @@ export default function LoginView() {
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               OR
             </Typography>
-          </Divider>
+          </Divider> */}
 
           {renderForm}
         </Card>

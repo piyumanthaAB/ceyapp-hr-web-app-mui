@@ -1,4 +1,6 @@
-import { useState } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -9,7 +11,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import { useRouter } from 'src/routes/hooks';
+
 import { account } from 'src/_mock/account';
+import { logoutUser } from 'src/redux/auth';
 
 // ----------------------------------------------------------------------
 
@@ -32,14 +37,24 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { isAuthenticated,user } = useSelector((state) => state.authReducer);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
   const handleClose = () => {
+    dispatch(logoutUser);
     setOpen(null);
   };
+  console.log(user);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('');
+    }
+  }, [isAuthenticated, router]);
 
   return (
     <>

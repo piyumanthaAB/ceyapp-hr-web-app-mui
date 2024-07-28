@@ -19,6 +19,11 @@ export const CreatePopupView = lazy(() => import('src/pages/createpopup'));
 export default function Router() {
   const routes = useRoutes([
     {
+      path: '',
+      element: <LoginPage />,
+    },
+    {
+      path: 'dashboard',
       element: (
         <DashboardLayout>
           <Suspense>
@@ -36,10 +41,6 @@ export default function Router() {
         { path: 'popup-readers/:id', element: <PopupReadersPage /> },
         { path: 'create-popup', element: <CreatePopupView /> },
       ],
-    },
-    {
-      path: 'login',
-      element: <LoginPage />,
     },
     {
       path: '404',
