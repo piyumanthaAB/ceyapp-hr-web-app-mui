@@ -60,7 +60,7 @@ export default function CreateUserView() {
   };
 
   const handleCancelClick = (event) => {
-    navigate('/employee');
+    navigate('/employees');
   };
 
   const renderForm = (
