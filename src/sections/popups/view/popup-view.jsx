@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -36,6 +37,8 @@ export default function PopupsPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const navigate = useNavigate();
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -86,6 +89,10 @@ export default function PopupsPage() {
     setFilterName(event.target.value);
   };
 
+  const handleAddClick = (event) => {
+    navigate('/create-popup');
+  };
+
   const dataFiltered = applyFilter({
     inputData: popups,
     comparator: getComparator(order, orderBy),
@@ -99,8 +106,13 @@ export default function PopupsPage() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">All Pop-Ups</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Add Pop-Up
+        <Button
+          variant="contained"
+          color="inherit"
+          startIcon={<Iconify icon="eva:plus-fill" />}
+          onClick={handleAddClick}
+        >
+          Add New Popup
         </Button>
       </Stack>
 

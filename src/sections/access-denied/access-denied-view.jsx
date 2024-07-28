@@ -9,7 +9,7 @@ import Logo from 'src/components/logo';
 
 // ----------------------------------------------------------------------
 
-export default function NotFoundView() {
+export default function AccessDeniedView() {
   const renderHeader = (
     <Box
       component="header"
@@ -45,14 +45,8 @@ export default function NotFoundView() {
           }}
         >
           <Typography variant="h3" sx={{ mb: 3 }}>
-            Sorry, page not found!
+            Access Denied!
           </Typography>
-
-          <Typography sx={{ color: 'text.secondary' }}>
-            Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be
-            sure to check your spelling.
-          </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>OR</Typography>
           <Typography sx={{ color: 'text.secondary' }}>
             You do not have access to this page/feature. Please contact Administrator.
           </Typography>

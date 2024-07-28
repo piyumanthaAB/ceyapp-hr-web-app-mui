@@ -14,7 +14,7 @@ const navConfig = [
   },
   {
     title: 'employees',
-    path: '/user',
+    path: '/employees',
     icon: icon('ic_user'),
   },
   {
@@ -24,37 +24,37 @@ const navConfig = [
   },
   {
     title: 'departments',
-    path: '/products',
+    path: '/departments',
     icon: icon('ic_cart'),
   },
   {
     title: 'attendance',
-    path: '/blog',
+    path: '/attendance',
     icon: icon('ic_blog'),
   },
   {
     title: 'leaves',
-    path: '/blog',
+    path: '/leaves',
     icon: icon('ic_blog'),
   },
   {
-    title: 'Holidays',
-    path: '/blog',
+    title: 'holidays',
+    path: '/Holidays',
     icon: icon('ic_blog'),
   },
   {
     title: 'payroll',
-    path: '/blog',
+    path: '/payroll',
     icon: icon('ic_blog'),
   },
   {
     title: 'jobs',
-    path: '/blog',
+    path: '/jobs',
     icon: icon('ic_blog'),
   },
   {
     title: 'settings',
-    path: '/blog',
+    path: '/settings',
     icon: icon('ic_blog'),
   },
   {

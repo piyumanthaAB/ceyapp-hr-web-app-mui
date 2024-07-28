@@ -90,7 +90,7 @@ export default function UserPage() {
   };
 
   const handleAddClick = (event) => {
-    navigate('/createuser');
+    navigate('/create-employee');
   };
 
   const dataFiltered = applyFilter({

@@ -13,6 +13,7 @@ export const PopUpPage = lazy(() => import('src/pages/popups'));
 export const CreateUserPage = lazy(() => import('src/pages/createuser'));
 export const PopupReadersPage = lazy(() => import('src/pages/popup-readers'));
 export const CreatePopupView = lazy(() => import('src/pages/createpopup'));
+export const AccessDeniedView = lazy(() => import('src/pages/access-denied'));
 
 // ----------------------------------------------------------------------
 
@@ -33,11 +34,11 @@ export default function Router() {
       ),
       children: [
         { element: <IndexPage />, index: true },
-        { path: 'user', element: <UserPage /> },
+        { path: 'employees', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'popups', element: <PopUpPage /> },
-        { path: 'createuser', element: <CreateUserPage /> },
+        { path: 'create-employee', element: <CreateUserPage /> },
         { path: 'popup-readers/:id', element: <PopupReadersPage /> },
         { path: 'create-popup', element: <CreatePopupView /> },
       ],
@@ -47,8 +48,12 @@ export default function Router() {
       element: <Page404 />,
     },
     {
+      path: 'access-denied',
+      element: <AccessDeniedView />,
+    },
+    {
       path: '*',
-      element: <Navigate to="/404" replace />,
+      element: <Navigate to="/access-denied" replace />,
     },
   ]);
 
