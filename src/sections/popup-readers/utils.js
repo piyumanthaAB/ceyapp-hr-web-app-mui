@@ -48,7 +48,8 @@ export function applyFilter({ inputData, comparator, filterName }) {
 
   if (filterName) {
     inputData = inputData.filter(
-      (popups) => popups.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (popupReaders) =>
+        popupReaders.employee_name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

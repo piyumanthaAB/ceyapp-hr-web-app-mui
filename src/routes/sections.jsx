@@ -11,6 +11,8 @@ export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const PopUpPage = lazy(() => import('src/pages/popups'));
 export const CreateUserPage = lazy(() => import('src/pages/createuser'));
+export const PopupReadersPage = lazy(() => import('src/pages/popup-readers'));
+export const CreatePopupView = lazy(() => import('src/pages/createpopup'));
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +33,8 @@ export default function Router() {
         { path: 'blog', element: <BlogPage /> },
         { path: 'popups', element: <PopUpPage /> },
         { path: 'createuser', element: <CreateUserPage /> },
+        { path: 'popup-readers/:id', element: <PopupReadersPage /> },
+        { path: 'create-popup', element: <CreatePopupView /> },
       ],
     },
     {

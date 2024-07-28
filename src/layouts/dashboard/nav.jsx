@@ -80,8 +80,6 @@ export default function Nav({ openNav, onCloseNav }) {
         /> */}
 
         <Box sx={{ textAlign: 'center' }}>
-          {/* <Typography variant="h6">Get more?</Typography> */}
-
           <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
             Powered By
           </Typography>

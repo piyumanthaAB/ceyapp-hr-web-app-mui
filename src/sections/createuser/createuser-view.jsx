@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -39,6 +41,8 @@ export default function CreateUserView() {
   const [accessLevel, setAccessLevel] = useState('');
   const [joinedDate, setJoinedDate] = useState(null);
 
+  const navigate = useNavigate();
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -53,6 +57,10 @@ export default function CreateUserView() {
   const handleSubmit = () => {
     // Handle the user creation logic here
     console.log('User created');
+  };
+
+  const handleCancelClick = (event) => {
+    navigate('/user');
   };
 
   const renderForm = (
@@ -221,16 +229,28 @@ export default function CreateUserView() {
         </Grid>
       </Grid>
       <Box sx={{ my: 3 }} /> {/* Add some space before the button */}
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        onClick={handleSubmit}
-      >
-        Create Employee
-      </LoadingButton>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+        <Button
+          fullWidth
+          variant="contained"
+          color="inherit"
+          onClick={handleCancelClick}
+          sx={{ mr: 1 }}
+        >
+          Cancel
+        </Button>
+        <LoadingButton
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          color="inherit"
+          onClick={handleSubmit}
+          sx={{ ml: 1 }}
+        >
+          Create Employee
+        </LoadingButton>
+      </Box>
     </>
   );
 

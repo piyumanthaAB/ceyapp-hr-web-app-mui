@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { popups } from 'src/_mock/popup';
+import { popups } from 'src/_mock/popups';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
@@ -124,9 +124,6 @@ export default function PopupsPage() {
                 headLabel={[
                   { id: 'title', label: 'Title' },
                   { id: 'message', label: 'Message' },
-                  { id: 'department', label: 'Department' },
-                  //   { id: 'startDate', label: 'Start Date' },
-                  //   { id: 'endDate', label: 'End Date' },
                   { id: 'createdDate', label: 'CreatedDate' },
                 ]}
               />
@@ -137,11 +134,7 @@ export default function PopupsPage() {
                     <PopupTableRow
                       key={row.id}
                       title={row.title}
-                      department={row.department}
                       message={row.message}
-                      //   startDate={row.startDate}
-                      //   endDate={row.endDate}
-                      media={row.media}
                       createdDate={row.createdDate}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 import Popover from '@mui/material/Popover';
@@ -10,22 +11,11 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-// import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 
-// ----------------------------------------------------------------------
-
-export default function PopupTableRow({
-  selected,
-  title,
-  message,
-  department,
-  createdDate,
-  startDate,
-  endDate,
-  handleClick,
-}) {
+export default function PopupTableRow({ selected, title, message, createdDate, handleClick, key }) {
   const [open, setOpen] = useState(null);
+  const navigate = useNavigate();
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -33,6 +23,11 @@ export default function PopupTableRow({
 
   const handleCloseMenu = () => {
     setOpen(null);
+  };
+
+  const handleViewClick = () => {
+    handleCloseMenu();
+    navigate(`/popup-readers/${key}`);
   };
 
   return (
@@ -52,13 +47,7 @@ export default function PopupTableRow({
 
         <TableCell size="large">{message}</TableCell>
 
-        <TableCell>{department}</TableCell>
-
         <TableCell>{createdDate}</TableCell>
-
-        {/* <TableCell>{startDate}</TableCell> */}
-
-        {/* <TableCell>{endDate}</TableCell> */}
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
@@ -77,6 +66,11 @@ export default function PopupTableRow({
           sx: { width: 140 },
         }}
       >
+        <MenuItem onClick={handleViewClick}>
+          <Iconify icon="eva:view-fill" sx={{ mr: 2 }} />
+          View
+        </MenuItem>
+
         <MenuItem onClick={handleCloseMenu}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
@@ -94,10 +88,8 @@ export default function PopupTableRow({
 PopupTableRow.propTypes = {
   message: PropTypes.any,
   handleClick: PropTypes.func,
-  startDate: PropTypes.string,
   title: PropTypes.any,
   createdDate: PropTypes.any,
   selected: PropTypes.any,
-  endDate: PropTypes.string,
-  department: PropTypes.string,
+  key: PropTypes.any, // Ensure id is passed as a prop
 };
