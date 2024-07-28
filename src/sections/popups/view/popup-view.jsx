@@ -10,21 +10,21 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { users } from 'src/_mock/user';
+import { popups } from 'src/_mock/popup';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import TableNoData from '../table-no-data';
-import UserTableRow from '../user-table-row';
-import UserTableHead from '../user-table-head';
+import PopupTableRow from '../popup-table-row';
+import PopupTableHead from '../popup-table-head';
 import TableEmptyRows from '../table-empty-rows';
-import UserTableToolbar from '../user-table-toolbar';
+import PopupTableToolbar from '../popup-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function PopupsPage() {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -47,7 +47,7 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
+      const newSelecteds = popups.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -87,7 +87,7 @@ export default function UserPage() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: popups,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -97,15 +97,15 @@ export default function UserPage() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">All Employees</Typography>
+        <Typography variant="h4">All Pop-Ups</Typography>
 
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Add New Employee
+          Add Pop-Up
         </Button>
       </Stack>
 
       <Card>
-        <UserTableToolbar
+        <PopupTableToolbar
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
@@ -114,36 +114,35 @@ export default function UserPage() {
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
-              <UserTableHead
+              <PopupTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={users.length}
+                rowCount={popups.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'name', label: 'Name' },
-                  { id: 'employee_id', label: 'Employee Id' },
+                  { id: 'title', label: 'Title' },
+                  { id: 'message', label: 'Message' },
                   { id: 'department', label: 'Department' },
-                  { id: 'role', label: 'Role' },
-                  { id: 'type', label: 'Type', align: 'center' },
-                  { id: 'status', label: 'Status' },
-                  { id: '' },
+                  //   { id: 'startDate', label: 'Start Date' },
+                  //   { id: 'endDate', label: 'End Date' },
+                  { id: 'createdDate', label: 'CreatedDate' },
                 ]}
               />
               <TableBody>
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-                    <UserTableRow
+                    <PopupTableRow
                       key={row.id}
-                      name={row.name}
+                      title={row.title}
                       department={row.department}
-                      role={row.role}
-                      status={row.status}
-                      employee_id={row.employee_id}
-                      avatarUrl={row.avatarUrl}
-                      type={row.type}
+                      message={row.message}
+                      //   startDate={row.startDate}
+                      //   endDate={row.endDate}
+                      media={row.media}
+                      createdDate={row.createdDate}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
@@ -151,7 +150,7 @@ export default function UserPage() {
 
                 <TableEmptyRows
                   height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                  emptyRows={emptyRows(page, rowsPerPage, popups.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -163,7 +162,7 @@ export default function UserPage() {
         <TablePagination
           page={page}
           component="div"
-          count={users.length}
+          count={popups.length}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

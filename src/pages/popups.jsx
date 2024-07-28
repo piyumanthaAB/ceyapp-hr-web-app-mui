@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { UserView } from 'src/sections/user/view';
+import { PopupsView } from 'src/sections/popups/view';
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ export default function UserPage() {
         <title> Employees | Ceyapps </title>
       </Helmet>
 
-      <UserView />
+      <PopupsView />
     </>
   );
 }
