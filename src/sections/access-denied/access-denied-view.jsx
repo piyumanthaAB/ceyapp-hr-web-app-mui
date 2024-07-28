@@ -9,7 +9,7 @@ import Logo from 'src/components/logo';
 
 // ----------------------------------------------------------------------
 
-export default function NotFoundView() {
+export default function AccessDeniedView() {
   const renderHeader = (
     <Box
       component="header"
