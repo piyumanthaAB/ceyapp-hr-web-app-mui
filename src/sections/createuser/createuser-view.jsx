@@ -56,11 +56,11 @@ export default function CreateUserView() {
 
   const handleSubmit = () => {
     // Handle the user creation logic here
-    console.log('User created');
+    console.log('Employee created');
   };
 
   const handleCancelClick = (event) => {
-    navigate('/user');
+    navigate('/employee');
   };
 
   const renderForm = (

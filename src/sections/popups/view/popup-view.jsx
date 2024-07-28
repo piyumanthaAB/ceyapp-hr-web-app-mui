@@ -112,7 +112,7 @@ export default function PopupsPage() {
           startIcon={<Iconify icon="eva:plus-fill" />}
           onClick={handleAddClick}
         >
-          Add New Employee
+          Add New Popup
         </Button>
       </Stack>
 

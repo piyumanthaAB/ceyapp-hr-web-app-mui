@@ -28,11 +28,11 @@ export default function Router() {
       ),
       children: [
         { element: <IndexPage />, index: true },
-        { path: 'user', element: <UserPage /> },
+        { path: 'employees', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'popups', element: <PopUpPage /> },
-        { path: 'createuser', element: <CreateUserPage /> },
+        { path: 'create-employee', element: <CreateUserPage /> },
         { path: 'popup-readers/:id', element: <PopupReadersPage /> },
         { path: 'create-popup', element: <CreatePopupView /> },
       ],
