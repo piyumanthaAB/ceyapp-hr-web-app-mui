@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -34,13 +33,13 @@ export default function LoginView() {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const { token,user,isAuthenticated } = useSelector((state) => state.authReducer);
+  const { token, user, isAuthenticated } = useSelector((state) => state.authReducer);
 
   const handleClick = () => {
     const values = { Email, Password };
     dispatch(login(values));
   };
-  
+
   useEffect(() => {
     console.log(user, token);
     if (isAuthenticated && user && token) {
