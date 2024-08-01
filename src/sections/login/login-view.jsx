@@ -30,13 +30,13 @@ export default function LoginView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const { token, user, isAuthenticated } = useSelector((state) => state.authReducer);
 
   const handleClick = () => {
-    const values = { Email, Password };
+    const values = { email, password };
     dispatch(login(values));
   };
 
@@ -52,7 +52,7 @@ export default function LoginView() {
         <TextField
           name="email"
           label="Email address"
-          value={Email}
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
@@ -60,7 +60,7 @@ export default function LoginView() {
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
-          value={Password}
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (

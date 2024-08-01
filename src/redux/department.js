@@ -4,55 +4,56 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   loading: false,
-  employees: [],
-  employee: null,
+  departments: [],
+  department: null,
 };
 
-const employeeSlice = createSlice({
-  name: 'employee',
+const departmentSlice = createSlice({
+  name: 'department',
   initialState,
   reducers: {
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
-    addEmployee: (state, action) => {
-      if (Array.isArray(state.employees)) {
-        state.employees.push(action.payload);
+    addDepartment: (state, action) => {
+      if (Array.isArray(state.departments)) {
+        state.departments.push(action.payload);
       } else {
-        state.employees = [action.payload];
+        state.departments = [action.payload];
       }
     },
-    setEmployee: (state, action) => {
-      state.employee = action.payload;
+    setDepartment: (state, action) => {
+      state.department = action.payload;
     },
-    setEmployees: (state, action) => {
-      state.employees = action.payload;
+    setDepartments: (state, action) => {
+      state.departments = action.payload;
     },
-    updateEmployee: (state, action) => {
-      const updatedEmployee = action.payload;
-      const index = state.employees.findIndex((employee) => employee._id === updatedEmployee._id);
+    updateDepartment: (state, action) => {
+      const updatedDepartment = action.payload;
+      const index = state.departments.findIndex(
+        (department) => department._id === updatedDepartment._id
+      );
       if (index !== -1) {
-        state.employees[index] = updatedEmployee;
+        state.departments[index] = updatedDepartment;
       }
     },
   },
 });
 
-export const { setEmployees, setEmployee, addEmployee, updateEmployee, setLoading } =
-  employeeSlice.actions;
+export const { setDepartments, setDepartment, addDepartment, updateDepartment, setLoading } =
+  departmentSlice.actions;
 
-export const getEmployees = async (dispatch) => {
+export const getDepartments = async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get('http://localhost:5000/api/v1/employee', {
+    const res = await axios.get('http://localhost:5000/api/v1/department', {
       withCredentials: true,
     });
     console.log(res);
     if (res.status === 200 || res.status === 201) {
-      const employees = [];
-      res.data.data.map((employee) => employees.push(employee));
-      console.log(employees);
-      dispatch(setEmployees(employees));
+      const departments = [];
+      res.data.data.map((inventory) => departments.push(inventory));
+      dispatch(setDepartments(departments));
       dispatch(setLoading(false));
     }
   } catch (error) {
@@ -63,18 +64,19 @@ export const getEmployees = async (dispatch) => {
   }
 };
 
-export const addNewEmployee = (values) => async (dispatch) => {
+export const addNewDepartment = (values) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.post('http://localhost:5000/api/v1/employee', values, {
+    const res = await axios.post('http://localhost:5000/api/v1/department', values, {
       withCredentials: true,
     });
+    console.log(res);
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
       enqueueSnackbar(`${res.data.message}`, {
         variant: 'success',
       });
-      dispatch(getEmployees);
+      dispatch(getDepartments);
     }
   } catch (error) {
     dispatch(setLoading(false));
@@ -107,15 +109,15 @@ export const addNewEmployee = (values) => async (dispatch) => {
 //   }
 // };
 
-export const getEmployeeById = (id) => async (dispatch) => {
+export const getDepartmentById = (id) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get(`http://localhost:5000/api/v1/employee/${id}`, {
+    const res = await axios.get(`http://localhost:5000/api/v1/department/${id}`, {
       withCredentials: true,
     });
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
-      dispatch(setEmployee(res.data.data));
+      dispatch(setDepartment(res.data.data));
     }
   } catch (error) {
     dispatch(setLoading(false));
@@ -125,12 +127,12 @@ export const getEmployeeById = (id) => async (dispatch) => {
   }
 };
 
-export const updateEmployeeById = (id, values) => async (dispatch) => {
+export const updateDepartmentById = (id, values) => async (dispatch) => {
   try {
     console.log(id);
     console.log(values);
     dispatch(setLoading(true));
-    const res = await axios.patch(`http://localhost:5000/api/v1/employee/${id}`, values, {
+    const res = await axios.patch(`http://localhost:5000/api/v1/department/${id}`, values, {
       withCredentials: true,
     });
     if (res.status === 200 || res.status === 201) {
@@ -138,7 +140,7 @@ export const updateEmployeeById = (id, values) => async (dispatch) => {
       enqueueSnackbar(`${res.data.message}`, {
         variant: 'success',
       });
-      dispatch(getEmployees);
+      dispatch(getDepartments);
     }
   } catch (error) {
     dispatch(setLoading(false));
@@ -148,4 +150,4 @@ export const updateEmployeeById = (id, values) => async (dispatch) => {
   }
 };
 
-export default employeeSlice.reducer;
+export default departmentSlice.reducer;

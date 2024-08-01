@@ -13,29 +13,29 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
 import { users } from 'src/_mock/user';
-import { getEmployees } from 'src/redux/employees';
+import { getDepartments } from 'src/redux/department';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import TableNoData from '../table-no-data';
-import UserTableRow from '../user-table-row';
-import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
-import UserTableToolbar from '../user-table-toolbar';
+import DepartmentTableRow from '../department-table-row';
+import DepartmentTableHead from '../department-table-head';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import DepartmentTableToolbar from '../department-table-toolbar';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
-
+export default function DepartmentPage() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getEmployees);
+    dispatch(getDepartments);
   }, [dispatch]);
-  const { employees } = useSelector(
-    (state) => state.employeeReducer
+  const { departments } = useSelector(
+    (state) => state.departmentReducer
   );
+
 
   const [page, setPage] = useState(0);
 
@@ -43,7 +43,7 @@ export default function UserPage() {
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('department');
 
   const [filterName, setFilterName] = useState('');
 
@@ -101,23 +101,21 @@ export default function UserPage() {
   };
 
   const handleAddClick = (event) => {
-    navigate('/dashboard/create-employee');
+    navigate('/dashboard/create-department');
   };
 
   const dataFiltered = applyFilter({
-    inputData: employees,
+    inputData: departments,
     comparator: getComparator(order, orderBy),
     filterName,
   });
-
-  console.log(employees);
 
   const notFound = !dataFiltered.length && !!filterName;
 
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">All Employees</Typography>
+        <Typography variant="h4">All Departments</Typography>
 
         <Button
           variant="contained"
@@ -125,12 +123,12 @@ export default function UserPage() {
           startIcon={<Iconify icon="eva:plus-fill" />}
           onClick={handleAddClick}
         >
-          Add New Employee
+          Add New Department
         </Button>
       </Stack>
 
       <Card>
-        <UserTableToolbar
+        <DepartmentTableToolbar
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
@@ -139,18 +137,16 @@ export default function UserPage() {
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
-              <UserTableHead
+              <DepartmentTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={users.length}
+                // rowCount={users.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'name', label: 'Name' },
-                  { id: 'employee_id', label: 'Employee Id' },
+                  { id: 'department_id', label: 'Department Id' },
                   { id: 'department', label: 'Department' },
-                  { id: 'role', label: 'Role' },
                   { id: '' },
                 ]}
               />
@@ -158,13 +154,10 @@ export default function UserPage() {
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-                    <UserTableRow
+                    <DepartmentTableRow
                       key={row.id}
-                      name={row.fullName}
-                      department={row.department.departmentName}
-                      role={row.employeeType.role}
-                      employee_id={row.employeeNo}
-                      avatarUrl={row.profilePicUrl}
+                      department={row.departmentName}
+                      department_id={row.department_id}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />

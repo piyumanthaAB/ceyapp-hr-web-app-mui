@@ -1,0 +1,1 @@
+export { default as UserRoleView } from './userrole-view';

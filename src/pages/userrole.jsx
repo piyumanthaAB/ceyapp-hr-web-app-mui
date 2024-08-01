@@ -1,19 +1,18 @@
 import { Helmet } from 'react-helmet-async';
 
-import { DepartmentView } from 'src/sections/department/view';
-
+import { UserRoleView } from 'src/sections/userroles/view';
 
 
 // ----------------------------------------------------------------------
 
-export default function DepartmentPage() {
+export default function UserRolePage() {
   return (
     <>
       <Helmet>
-        <title> Departments | Ceyapps </title>
+        <title> User Roles | ACORN </title>
       </Helmet>
 
-      <DepartmentView />
+      <UserRoleView />
     </>
   );
 }

@@ -4,55 +4,56 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   loading: false,
-  employees: [],
-  employee: null,
+  userroles: [],
+  userrole: null,
 };
 
-const employeeSlice = createSlice({
-  name: 'employee',
+const userroleSlice = createSlice({
+  name: 'userrole',
   initialState,
   reducers: {
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
-    addEmployee: (state, action) => {
-      if (Array.isArray(state.employees)) {
-        state.employees.push(action.payload);
+    addUserRole: (state, action) => {
+      if (Array.isArray(state.userroles)) {
+        state.userroles.push(action.payload);
       } else {
-        state.employees = [action.payload];
+        state.userroles = [action.payload];
       }
     },
-    setEmployee: (state, action) => {
-      state.employee = action.payload;
+    setUserRole: (state, action) => {
+      state.userrole = action.payload;
     },
-    setEmployees: (state, action) => {
-      state.employees = action.payload;
+    setUserRoles: (state, action) => {
+      state.userroles = action.payload;
     },
-    updateEmployee: (state, action) => {
-      const updatedEmployee = action.payload;
-      const index = state.employees.findIndex((employee) => employee._id === updatedEmployee._id);
+    updateUserRole: (state, action) => {
+      const updatedUserRole = action.payload;
+      const index = state.userroles.findIndex(
+        (userrole) => userrole._id === updatedUserRole._id
+      );
       if (index !== -1) {
-        state.employees[index] = updatedEmployee;
+        state.userroles[index] = updatedUserRole;
       }
     },
   },
 });
 
-export const { setEmployees, setEmployee, addEmployee, updateEmployee, setLoading } =
-  employeeSlice.actions;
+export const { setUserRoles, setUserRole, addUserRole, updateUserRole, setLoading } =
+  userroleSlice.actions;
 
-export const getEmployees = async (dispatch) => {
+export const getUserRoles = async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get('http://localhost:5000/api/v1/employee', {
+    const res = await axios.get('http://localhost:5000/api/v1/role', {
       withCredentials: true,
     });
     console.log(res);
     if (res.status === 200 || res.status === 201) {
-      const employees = [];
-      res.data.data.map((employee) => employees.push(employee));
-      console.log(employees);
-      dispatch(setEmployees(employees));
+      const userroles = [];
+      res.data.data.map((userrole) => userroles.push(userrole));
+      dispatch(setUserRoles(userroles));
       dispatch(setLoading(false));
     }
   } catch (error) {
@@ -63,18 +64,19 @@ export const getEmployees = async (dispatch) => {
   }
 };
 
-export const addNewEmployee = (values) => async (dispatch) => {
+export const addNewUserRole = (values) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.post('http://localhost:5000/api/v1/employee', values, {
+    const res = await axios.post('http://localhost:5000/api/v1/role', values, {
       withCredentials: true,
     });
+    console.log(res);
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
       enqueueSnackbar(`${res.data.message}`, {
         variant: 'success',
       });
-      dispatch(getEmployees);
+      dispatch(getUserRoles);
     }
   } catch (error) {
     dispatch(setLoading(false));
@@ -107,15 +109,15 @@ export const addNewEmployee = (values) => async (dispatch) => {
 //   }
 // };
 
-export const getEmployeeById = (id) => async (dispatch) => {
+export const getUserRoleById = (id) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get(`http://localhost:5000/api/v1/employee/${id}`, {
+    const res = await axios.get(`http://localhost:5000/api/v1/role/${id}`, {
       withCredentials: true,
     });
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
-      dispatch(setEmployee(res.data.data));
+      dispatch(setUserRole(res.data.data));
     }
   } catch (error) {
     dispatch(setLoading(false));
@@ -125,12 +127,10 @@ export const getEmployeeById = (id) => async (dispatch) => {
   }
 };
 
-export const updateEmployeeById = (id, values) => async (dispatch) => {
+export const updateUserRoleById = (id, values) => async (dispatch) => {
   try {
-    console.log(id);
-    console.log(values);
     dispatch(setLoading(true));
-    const res = await axios.patch(`http://localhost:5000/api/v1/employee/${id}`, values, {
+    const res = await axios.patch(`http://localhost:5000/api/v1/role/${id}`, values, {
       withCredentials: true,
     });
     if (res.status === 200 || res.status === 201) {
@@ -138,7 +138,7 @@ export const updateEmployeeById = (id, values) => async (dispatch) => {
       enqueueSnackbar(`${res.data.message}`, {
         variant: 'success',
       });
-      dispatch(getEmployees);
+      dispatch(getUserRoles);
     }
   } catch (error) {
     dispatch(setLoading(false));
@@ -148,4 +148,4 @@ export const updateEmployeeById = (id, values) => async (dispatch) => {
   }
 };
 
-export default employeeSlice.reducer;
+export default userroleSlice.reducer;
