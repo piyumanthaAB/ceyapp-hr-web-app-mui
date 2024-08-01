@@ -9,57 +9,57 @@ const icon = (name) => (
 const navConfig = [
   {
     title: 'dashboard',
-    path: '/',
+    path: '/dashboard',
     icon: icon('ic_analytics'),
   },
   {
     title: 'employees',
-    path: '/employees',
+    path: '/dashboard/employees',
     icon: icon('ic_user'),
   },
   {
     title: 'popups',
-    path: '/popups',
+    path: '/dashboard/popups',
     icon: icon('ic_cart'),
   },
   {
     title: 'departments',
-    path: '/departments',
+    path: '/dashboard/departments',
     icon: icon('ic_cart'),
   },
   {
     title: 'attendance',
-    path: '/attendance',
+    path: '/dashboard/attendance',
     icon: icon('ic_blog'),
   },
   {
     title: 'leaves',
-    path: '/leaves',
+    path: '/dashboard/leaves',
     icon: icon('ic_blog'),
   },
   {
     title: 'holidays',
-    path: '/Holidays',
+    path: '/dashboard/Holidays',
     icon: icon('ic_blog'),
   },
   {
     title: 'payroll',
-    path: '/payroll',
+    path: '/dashboard/payroll',
     icon: icon('ic_blog'),
   },
   {
     title: 'jobs',
-    path: '/jobs',
+    path: '/dashboard/jobs',
     icon: icon('ic_blog'),
   },
   {
     title: 'settings',
-    path: '/settings',
+    path: '/dashboard/settings',
     icon: icon('ic_blog'),
   },
   {
     title: 'login',
-    path: '/login',
+    path: '/',
     icon: icon('ic_lock'),
   },
   {

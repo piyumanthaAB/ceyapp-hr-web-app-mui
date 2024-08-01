@@ -39,7 +39,7 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isAuthenticated,user } = useSelector((state) => state.authReducer);
+  const { isAuthenticated } = useSelector((state) => state.authReducer);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -49,12 +49,13 @@ export default function AccountPopover() {
     dispatch(logoutUser);
     setOpen(null);
   };
-  console.log(user);
+  const loggedUser = sessionStorage.getItem('user');
+  console.log(loggedUser);
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('');
+    if (!isAuthenticated && loggedUser === null) {
+      router.push('/');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, loggedUser, router]);
 
   return (
     <>

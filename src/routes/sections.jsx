@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Outlet, Navigate, useRoutes } from 'react-router-dom';
+import { Outlet,useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
@@ -14,6 +14,7 @@ export const CreateUserPage = lazy(() => import('src/pages/createuser'));
 export const PopupReadersPage = lazy(() => import('src/pages/popup-readers'));
 export const CreatePopupView = lazy(() => import('src/pages/createpopup'));
 export const AccessDeniedView = lazy(() => import('src/pages/access-denied'));
+export const DepartmentPage = lazy(()=> import('src/pages/department'));
 
 // ----------------------------------------------------------------------
 
@@ -35,6 +36,7 @@ export default function Router() {
       children: [
         { element: <IndexPage />, index: true },
         { path: 'employees', element: <UserPage /> },
+        { path: 'departments', element: <DepartmentPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'popups', element: <PopUpPage /> },
@@ -51,10 +53,10 @@ export default function Router() {
       path: 'access-denied',
       element: <AccessDeniedView />,
     },
-    {
-      path: '*',
-      element: <Navigate to="/access-denied" replace />,
-    },
+    // {
+    //   path: '*',
+    //   element: <Navigate to="/access-denied" replace />,
+    // },
   ]);
 
   return routes;
