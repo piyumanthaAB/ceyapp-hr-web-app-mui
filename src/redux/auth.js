@@ -82,6 +82,7 @@ export const getUserProfile = async (dispatch) => {
     if (res.status === 200 || res.status === 201) {
       dispatch(setUser(res.data.user));
       dispatch(setLoading(false));
+      sessionStorage.setItem("user",res.data.user)
     }
   } catch (error) {
     dispatch(setLoading(false));
@@ -102,6 +103,7 @@ export const logoutUser = async (dispatch) => {
       dispatch(setLoading(false));
       dispatch(setIsAuthenticated(false));
       dispatch(setToken(null));
+      sessionStorage.removeItem("user");
     }
   } catch (error) {
     dispatch(setLoading(false));
