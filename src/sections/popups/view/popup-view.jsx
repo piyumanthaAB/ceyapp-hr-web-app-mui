@@ -90,7 +90,7 @@ export default function PopupsPage() {
   };
 
   const handleAddClick = (event) => {
-    navigate('/create-popup');
+    navigate('/dashboard/create-popup');
   };
 
   const dataFiltered = applyFilter({

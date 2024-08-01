@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Outlet,useRoutes } from 'react-router-dom';
+import { Outlet, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
@@ -14,7 +14,7 @@ export const CreateUserPage = lazy(() => import('src/pages/createuser'));
 export const PopupReadersPage = lazy(() => import('src/pages/popup-readers'));
 export const CreatePopupView = lazy(() => import('src/pages/createpopup'));
 export const AccessDeniedView = lazy(() => import('src/pages/access-denied'));
-export const DepartmentPage = lazy(()=> import('src/pages/department'));
+export const DepartmentPage = lazy(() => import('src/pages/department'));
 
 // ----------------------------------------------------------------------
 
