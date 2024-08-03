@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -11,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { popups } from 'src/_mock/popups';
+import { getPopups } from 'src/redux/popUps';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
@@ -26,6 +27,15 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 // ----------------------------------------------------------------------
 
 export default function PopupsPage() {
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPopups);
+  }, [dispatch]);
+  const { popups } = useSelector(
+    (state) => state.popupReader
+  );
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');

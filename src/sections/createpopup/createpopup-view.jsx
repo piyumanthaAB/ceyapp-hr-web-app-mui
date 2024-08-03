@@ -73,6 +73,8 @@ export default function CreatePopupView() {
     setDepartment(event.target.value);
   };
 
+  console.log(selectedTime);
+  
   const renderForm = (
     <>
       <Grid container spacing={3}>

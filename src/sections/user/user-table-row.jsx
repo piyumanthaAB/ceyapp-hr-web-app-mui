@@ -11,7 +11,7 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import Label from 'src/components/label';
+// import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -22,6 +22,7 @@ export default function UserTableRow({
   avatarUrl,
   employee_id,
   department,
+  employeeType,
   role,
   type,
   status,
@@ -59,9 +60,9 @@ export default function UserTableRow({
 
         <TableCell>{role}</TableCell>
 
-        <TableCell align="center">{type}</TableCell>
+        <TableCell>{employeeType}</TableCell>
 
-        <TableCell>
+        {/* <TableCell>
           <Label
             color={
               (status === 'tempory' && 'error') ||
@@ -71,7 +72,7 @@ export default function UserTableRow({
           >
             {status}
           </Label>
-        </TableCell>
+        </TableCell> */}
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
@@ -111,6 +112,7 @@ UserTableRow.propTypes = {
   type: PropTypes.string,
   name: PropTypes.any,
   role: PropTypes.any,
+  employeeType: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
   department: PropTypes.string,

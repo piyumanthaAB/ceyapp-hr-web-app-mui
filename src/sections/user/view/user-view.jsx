@@ -24,7 +24,6 @@ import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-
 // ----------------------------------------------------------------------
 
 export default function UserPage() {
@@ -151,6 +150,7 @@ export default function UserPage() {
                   { id: 'employee_id', label: 'Employee Id' },
                   { id: 'department', label: 'Department' },
                   { id: 'role', label: 'Role' },
+                  { id: 'employeeType', label: 'Employee Type'},
                   { id: '' },
                 ]}
               />
@@ -160,11 +160,12 @@ export default function UserPage() {
                   .map((row) => (
                     <UserTableRow
                       key={row.id}
-                      name={row.fullName}
+                      name={`${row.firstName} ${  row.lastName}`}
                       department={row.department.departmentName}
-                      role={row.employeeType.role}
+                      role={row.employeeRole.role}
                       employee_id={row.employeeNo}
                       avatarUrl={row.profilePicUrl}
+                      employeeType={row.employeeType}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />

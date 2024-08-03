@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -10,20 +10,25 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
+// import InputAdornment from '@mui/material/InputAdornment';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { AdapterDateFns, LocalizationProvider } from '@mui/x-date-pickers';
+import { useDispatch, useSelector } from 'react-redux';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { bgGradient } from 'src/theme/css';
+import { getUserRoles } from 'src/redux/userroles';
+import { addNewEmployee } from 'src/redux/employees';
+import { getDepartments } from 'src/redux/department';
 
 import Iconify from 'src/components/iconify';
 
@@ -32,20 +37,47 @@ import Iconify from 'src/components/iconify';
 export default function CreateUserView() {
   const theme = useTheme();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getDepartments);
+    dispatch(getUserRoles);
+  }, [dispatch]);
+
+  const { departments } = useSelector(
+    (state) => state.departmentReducer
+  );
+  const { userroles } = useSelector(
+    (state) => state.userroleReducer
+  );
+
+  // const {loading} = useSelector(
+  //   (state) => state.employeeReducer
+  // )
+
+  // const [showPassword, setShowPassword] = useState(false);
+  // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [employeeType, setEmployeeType] = useState('');
   const [department, setDepartment] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
+  const [image, setProfileImage] = useState(null);
+  const [uploadedFile, setFile] = useState(null);
   const [gender, setGender] = useState('');
-  const [accessLevel, setAccessLevel] = useState('');
+  const [role, setUserRole] = useState('');
   const [joinedDate, setJoinedDate] = useState(null);
+  const [email, setEmail] = useState('');
+  const [contactNo, setContactNo] = useState(null);
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [zipCode, setZipCode] = useState(null);
 
   const navigate = useNavigate();
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setFile(file);
       const reader = new FileReader();
       reader.onload = () => {
         setProfileImage(reader.result);
@@ -55,8 +87,25 @@ export default function CreateUserView() {
   };
 
   const handleSubmit = () => {
-    // Handle the user creation logic here
-    console.log('Employee created');
+    const formData = new FormData();
+    formData.append('firstName',firstName);
+    formData.append('lastName',lastName);
+    formData.append('employeeType', employeeType);
+    formData.append('email', email);
+    formData.append('employeeRole', role);
+    formData.append('contactNo', contactNo);
+    formData.append('joinedDate', joinedDate);
+    formData.append('department', department);
+    formData.append('image', uploadedFile);
+    formData.append('address', address);
+    formData.append('city', city);
+    formData.append('state', state);
+    formData.append('zipCode', zipCode);
+
+    dispatch(addNewEmployee(formData));
+    // if(!loading){
+    //   navigate('/dashboard/employees');
+    // }
   };
 
   const handleCancelClick = (event) => {
@@ -82,8 +131,8 @@ export default function CreateUserView() {
             }}
             onClick={() => document.getElementById('imageUpload').click()}
           >
-            {profileImage ? (
-              <Avatar src={profileImage} sx={{ width: '100%', height: '100%' }} />
+            {image ? (
+              <Avatar src={image} sx={{ width: '100%', height: '100%' }} />
             ) : (
               <Iconify icon="eva:camera-fill" width={24} height={24} />
             )}
@@ -98,10 +147,22 @@ export default function CreateUserView() {
         </Grid>
         <Grid item md={6} />
         <Grid item xs={12} md={6}>
-          <TextField fullWidth name="firstName" label="First Name" />
+          <TextField
+            fullWidth
+            name="firstName"
+            label="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField fullWidth name="lastName" label="Last Name" />
+          <TextField
+            fullWidth
+            name="lastName"
+            label="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <TextField
@@ -118,13 +179,22 @@ export default function CreateUserView() {
           </TextField>
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField fullWidth name="email" label="Email" />
+          <TextField
+            fullWidth
+            name="email"
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField fullWidth name="mobileNumber" label="Mobile Number" />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField fullWidth name="employeeId" label="Employee ID" />
+          <TextField
+            fullWidth
+            name="mobileNumber"
+            label="Mobile Number"
+            value={contactNo}
+            onChange={(e) => setContactNo(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -146,9 +216,9 @@ export default function CreateUserView() {
             value={employeeType}
             onChange={(e) => setEmployeeType(e.target.value)}
           >
-            <MenuItem value="fullTime">Full-Time</MenuItem>
-            <MenuItem value="partTime">Part-Time</MenuItem>
-            <MenuItem value="contract">Contract</MenuItem>
+            <MenuItem value="Full-Time">Full-Time</MenuItem>
+            <MenuItem value="Part-Time">Part-Time</MenuItem>
+            <MenuItem value="Contract">Contract</MenuItem>
           </TextField>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -160,37 +230,66 @@ export default function CreateUserView() {
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
           >
-            <MenuItem value="hr">HR</MenuItem>
-            <MenuItem value="engineering">Engineering</MenuItem>
-            <MenuItem value="marketing">Marketing</MenuItem>
+            {
+              departments.map((data)=>(
+                <MenuItem value={data._id}>{data.departmentName}</MenuItem>
+              ))
+            }
           </TextField>
         </Grid>
         <Grid item xs={12} md={6}>
           <TextField
             fullWidth
             select
-            name="accessLevel"
-            label="Access Level"
-            value={accessLevel}
-            onChange={(e) => setAccessLevel(e.target.value)}
+            name="userRole"
+            label="User Role"
+            value={role}
+            onChange={(e) => setUserRole(e.target.value)}
           >
-            <MenuItem value={1}>Normal User</MenuItem>
-            <MenuItem value={2}>Admin User</MenuItem>
+            {
+              userroles.map((data)=>(
+                <MenuItem value={data.id}>{data.role}</MenuItem>
+              ))
+            }
           </TextField>
         </Grid>
         <Grid item xs={12} md={12}>
-          <TextField fullWidth name="address" label="Address" />
+          <TextField
+            fullWidth
+            name="address"
+            label="Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
-          <TextField fullWidth name="city" label="City" />
+          <TextField
+            fullWidth
+            name="city"
+            label="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
-          <TextField fullWidth name="state" label="State" />
+          <TextField
+            fullWidth
+            name="state"
+            label="State"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
-          <TextField fullWidth name="zipCode" label="ZIP Code" />
+          <TextField
+            fullWidth
+            name="zipCode"
+            label="ZIP Code"
+            value={zipCode}
+            onChange={(e) => setZipCode(e.target.value)}
+          />
         </Grid>
-        <Grid item xs={12} md={6}>
+        {/* <Grid item xs={12} md={6}>
           <TextField
             fullWidth
             name="password"
@@ -226,7 +325,7 @@ export default function CreateUserView() {
               ),
             }}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
       <Box sx={{ my: 3 }} /> {/* Add some space before the button */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
