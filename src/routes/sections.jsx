@@ -15,6 +15,9 @@ export const PopupReadersPage = lazy(() => import('src/pages/popup-readers'));
 export const CreatePopupView = lazy(() => import('src/pages/createpopup'));
 export const AccessDeniedView = lazy(() => import('src/pages/access-denied'));
 export const DepartmentPage = lazy(() => import('src/pages/department'));
+export const CreateDepartmentPage = lazy(()=>import('src/pages/createdepartment'));
+export const UserRolePage = lazy(() => import('src/pages/userrole'));
+export const CreateUserRolePage = lazy(()=>import('src/pages/createuserrole'));
 
 // ----------------------------------------------------------------------
 
@@ -41,8 +44,11 @@ export default function Router() {
         { path: 'blog', element: <BlogPage /> },
         { path: 'popups', element: <PopUpPage /> },
         { path: 'create-employee', element: <CreateUserPage /> },
+        { path: 'create-department', element: <CreateDepartmentPage/>},
         { path: 'popup-readers/:id', element: <PopupReadersPage /> },
         { path: 'create-popup', element: <CreatePopupView /> },
+        { path: 'userrole', element: <UserRolePage /> },
+        { path: 'create-userrole', element: <CreateUserRolePage/>},
       ],
     },
     {

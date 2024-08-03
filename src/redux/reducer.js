@@ -2,9 +2,15 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import authReducer from './auth';
+import userroleReducer from './userroles';
+import employeeReducer from './employees';
+import departmentReducer from './department';
 
 const reducer = combineReducers({
-  authReducer
+  authReducer,
+  departmentReducer,
+  userroleReducer,
+  employeeReducer
 });
 
 export default reducer;

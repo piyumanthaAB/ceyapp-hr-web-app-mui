@@ -1,0 +1,1 @@
+export { default as CreateDepartmentView } from './createdepartment-view';
