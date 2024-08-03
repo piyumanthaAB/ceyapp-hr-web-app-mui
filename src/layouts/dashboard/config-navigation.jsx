@@ -20,17 +20,17 @@ const navConfig = [
   {
     title: 'popups',
     path: '/dashboard/popups',
-    icon: icon('ic_cart'),
+    icon: icon('ic_popup'),
   },
   {
     title: 'departments',
     path: '/dashboard/departments',
-    icon: icon('ic_cart'),
+    icon: icon('ic_departments'),
   },
   {
     title: 'user roles',
     path: '/dashboard/userrole',
-    icon: icon('ic_cart'),
+    icon: icon('ic_userrole'),
   },
   // {
   //   title: 'attendance',

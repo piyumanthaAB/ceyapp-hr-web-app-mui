@@ -16,23 +16,23 @@ const popupSlice = createSlice({
       state.loading = action.payload;
     },
     addPopup: (state, action) => {
-      if (Array.isArray(state.employees)) {
-        state.employees.push(action.payload);
+      if (Array.isArray(state.popups)) {
+        state.popups.push(action.payload);
       } else {
-        state.employees = [action.payload];
+        state.popups = [action.payload];
       }
     },
     setPop: (state, action) => {
-      state.employee = action.payload;
+      state.popup = action.payload;
     },
     setPopups: (state, action) => {
-      state.employees = action.payload;
+      state.popups = action.payload;
     },
     updatePopup: (state, action) => {
-      const updatedEmployee = action.payload;
-      const index = state.employees.findIndex((employee) => employee._id === updatedEmployee._id);
+      const updatedPopup = action.payload;
+      const index = state.popups.findIndex((popup) => popup._id === updatedPopup._id);
       if (index !== -1) {
-        state.employees[index] = updatedEmployee;
+        state.popups[index] = updatedPopup;
       }
     },
   },
@@ -54,6 +54,8 @@ export const getPopups = async (dispatch) => {
       dispatch(setPopups(popups));
       dispatch(setLoading(false));
     }
+    
+    
   } catch (error) {
     dispatch(setLoading(false));
     enqueueSnackbar(`${error.response.data.message}`, {

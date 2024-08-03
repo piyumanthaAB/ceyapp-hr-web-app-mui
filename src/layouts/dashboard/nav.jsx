@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -16,6 +17,7 @@ import { RouterLink } from 'src/routes/components';
 import { useResponsive } from 'src/hooks/use-responsive';
 
 import { account } from 'src/_mock/account';
+import { getUserProfile } from 'src/redux/auth';
 
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
@@ -26,6 +28,14 @@ import navConfig from './config-navigation';
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserProfile);
+  }, [dispatch]);
+
+  const { user } = useSelector((state) => state.authReducer);
+  console.log(user);
+  
   const pathname = usePathname();
 
   const upLg = useResponsive('up', 'lg');
@@ -50,13 +60,13 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar src={user && user.profilePicUrl ? user.profilePicUrl : account.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
+        <Typography variant="subtitle2">{user ?`${user.firstName} ${user.lastName}` : account.displayName}</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
+          {user ? user.employeeRole.role : account.role}
         </Typography>
       </Box>
     </Box>

@@ -37,7 +37,7 @@ const authSlices = createSlice({
   },
 });
 
-export const { setUser, setLoading, setToken, setIsAuthenticated, initializeAuth } =
+export const { setUser, setLoading, setToken, setIsAuthenticated, initializeAuth, token } =
   authSlices.actions;
 
 export const login = (data) => async (dispatch) => {
@@ -82,7 +82,7 @@ export const getUserProfile = async (dispatch) => {
     if (res.status === 200 || res.status === 201) {
       dispatch(setUser(res.data.user));
       dispatch(setLoading(false));
-      sessionStorage.setItem("user",res.data.user)
+      sessionStorage.setItem("jwt",token);
     }
   } catch (error) {
     dispatch(setLoading(false));
@@ -103,7 +103,7 @@ export const logoutUser = async (dispatch) => {
       dispatch(setLoading(false));
       dispatch(setIsAuthenticated(false));
       dispatch(setToken(null));
-      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("jwt");
     }
   } catch (error) {
     dispatch(setLoading(false));

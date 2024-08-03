@@ -1,36 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import InputLabel from '@mui/material/InputLabel';
 import LoadingButton from '@mui/lab/LoadingButton';
+import FormControl from '@mui/material/FormControl';
 import { alpha, useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// eslint-disable-next-line import/no-extraneous-dependencies
-// import { AdapterDateFns, LocalizationProvider } from '@mui/x-date-pickers';
-import Chip from '@mui/material/Chip';
-import Checkbox from '@mui/material/Checkbox';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { bgGradient } from 'src/theme/css';
+import { addNewPopup } from 'src/redux/popUps';
+import { getDepartments } from 'src/redux/department';
 
 import Iconify from 'src/components/iconify';
 
@@ -38,7 +36,15 @@ import Iconify from 'src/components/iconify';
 
 export default function CreatePopupView() {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getDepartments);
+  }, [dispatch]);
 
+  const { departments } = useSelector((state) => state.departmentReducer);
+
+  const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
   const [windowSize, setWindowSize] = useState('');
   const [profileImage, setProfileImage] = useState(null);
   const [department, setDepartment] = useState([]);
@@ -46,12 +52,14 @@ export default function CreatePopupView() {
   const [endDate, setEndDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [repeat, setRepeat] = useState(false);
+  const [uploadedFile, setFile] = useState(null);
 
   const navigate = useNavigate();
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setFile(file);
       const reader = new FileReader();
       reader.onload = () => {
         setProfileImage(reader.result);
@@ -61,8 +69,20 @@ export default function CreatePopupView() {
   };
 
   const handleSubmit = () => {
-    // Handle the user creation logic here
-    console.log('Popup created');
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('message', message);
+    formData.append('department', department);
+    formData.append('scheduleTime', selectedTime);
+    formData.append('fromDate', startDate);
+    formData.append('toDate', endDate);
+    if (repeat) {
+      formData.append('repeat', repeat);
+    }
+    formData.append('image', uploadedFile);
+    formData.append('windowSize', windowSize);
+
+    dispatch(addNewPopup(formData));
   };
 
   const handleCancelClick = (event) => {
@@ -73,16 +93,30 @@ export default function CreatePopupView() {
     setDepartment(event.target.value);
   };
 
-  console.log(selectedTime);
-  
+  console.log(startDate);
+
   const renderForm = (
     <>
       <Grid container spacing={3}>
         <Grid item xs={12} md={12}>
-          <TextField fullWidth name="title" label="Title" />
+          <TextField
+            fullWidth
+            name="title"
+            label="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={12}>
-          <TextField fullWidth name="message" label="Message" multiline rows={4} />
+          <TextField
+            fullWidth
+            name="message"
+            label="Message"
+            multiline
+            rows={4}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={12}>
           <Box
@@ -135,9 +169,12 @@ export default function CreatePopupView() {
               input={<OutlinedInput label="Departments" />}
               renderValue={(selected) => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
+                  {selected.map((id) => {
+                    const departmentName = departments.find(
+                      (dept) => dept._id === id
+                    )?.departmentName;
+                    return departmentName ? <Chip key={id} label={departmentName} /> : null;
+                  })}
                 </Box>
               )}
               MenuProps={{
@@ -149,9 +186,11 @@ export default function CreatePopupView() {
                 },
               }}
             >
-              <MenuItem value="HR">HR</MenuItem>
-              <MenuItem value="Marketing">Marketing</MenuItem>
-              <MenuItem value="Support">Support</MenuItem>
+              {departments.map((data) => (
+                <MenuItem key={data._id} value={data._id}>
+                  {data.departmentName}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>

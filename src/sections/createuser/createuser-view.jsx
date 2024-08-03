@@ -92,6 +92,7 @@ export default function CreateUserView() {
     formData.append('lastName',lastName);
     formData.append('employeeType', employeeType);
     formData.append('email', email);
+    formData.append('gender',gender);
     formData.append('employeeRole', role);
     formData.append('contactNo', contactNo);
     formData.append('joinedDate', joinedDate);

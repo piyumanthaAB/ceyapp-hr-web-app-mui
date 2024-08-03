@@ -36,6 +36,8 @@ export default function PopupsPage() {
     (state) => state.popupReader
   );
 
+  console.log(popups);
+  
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -152,16 +154,19 @@ export default function PopupsPage() {
               <TableBody>
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <PopupTableRow
+                  .map((row) => {
+                    const dateOnly = new Date(row.createdAt).toISOString().split('T')[0];
+                    return (
+                      <PopupTableRow
                       key={row.id}
                       title={row.title}
                       message={row.message}
-                      createdDate={row.createdDate}
+                      createdDate={dateOnly}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
-                  ))}
+                    )
+                  })}
 
                 <TableEmptyRows
                   height={77}

@@ -39,8 +39,8 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isAuthenticated } = useSelector((state) => state.authReducer);
-
+  const { user } = useSelector((state) => state.authReducer);
+  const token = sessionStorage.getItem('jwt');
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -49,13 +49,12 @@ export default function AccountPopover() {
     dispatch(logoutUser);
     setOpen(null);
   };
-  const loggedUser = sessionStorage.getItem('user');
-  console.log(loggedUser);
+
   useEffect(() => {
-    if (!isAuthenticated && loggedUser === null) {
+    if (!token) {
       router.push('/');
     }
-  }, [isAuthenticated, loggedUser, router]);
+  }, [ router, token]);
 
   return (
     <>
@@ -72,8 +71,8 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={user && user.profilePicUrl ? user.profilePicUrl : account.photoURL}
+          alt={user ?`${user.firstName} ${user.lastName}` : account.displayName}
           sx={{
             width: 36,
             height: 36,
@@ -87,7 +86,7 @@ export default function AccountPopover() {
       <Popover
         open={!!open}
         anchorEl={open}
-        onClose={handleClose}
+        // onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
@@ -101,17 +100,17 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+          {user ?`${user.firstName} ${user.lastName}` : account.displayName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+          {user ? user.email : account.email}
           </Typography>
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
+          <MenuItem key={option.label}>
             {option.label}
           </MenuItem>
         ))}
