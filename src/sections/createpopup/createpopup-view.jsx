@@ -69,10 +69,13 @@ export default function CreatePopupView() {
   };
 
   const handleSubmit = () => {
+    console.log(department);
+    console.log(JSON.stringify(department));
+    
     const formData = new FormData();
     formData.append('title', title);
     formData.append('message', message);
-    formData.append('department', department);
+    department.forEach(dept => formData.append('department[]', dept));
     formData.append('scheduleTime', selectedTime);
     formData.append('fromDate', startDate);
     formData.append('toDate', endDate);
