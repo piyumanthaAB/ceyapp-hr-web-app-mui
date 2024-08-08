@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -10,6 +11,8 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+
+import { removeEmployee } from 'src/redux/employees';
 
 // import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
@@ -24,12 +27,11 @@ export default function UserTableRow({
   department,
   employeeType,
   role,
-  type,
-  status,
   handleClick,
+  id
 }) {
   const [open, setOpen] = useState(null);
-
+  const dispatch = useDispatch();
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -37,6 +39,10 @@ export default function UserTableRow({
   const handleCloseMenu = () => {
     setOpen(null);
   };
+
+  const handleRemoveEmployee = ()=>{
+    dispatch(removeEmployee(id))
+  }
 
   return (
     <>
@@ -96,7 +102,7 @@ export default function UserTableRow({
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleRemoveEmployee} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>
@@ -109,11 +115,10 @@ UserTableRow.propTypes = {
   avatarUrl: PropTypes.any,
   employee_id: PropTypes.any,
   handleClick: PropTypes.func,
-  type: PropTypes.string,
+  id: PropTypes.string,
   name: PropTypes.any,
   role: PropTypes.any,
   employeeType: PropTypes.any,
   selected: PropTypes.any,
-  status: PropTypes.string,
   department: PropTypes.string,
 };

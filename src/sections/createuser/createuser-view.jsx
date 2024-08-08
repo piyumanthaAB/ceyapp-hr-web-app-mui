@@ -43,12 +43,10 @@ export default function CreateUserView() {
     dispatch(getUserRoles);
   }, [dispatch]);
 
-  const { departments } = useSelector(
-    (state) => state.departmentReducer
-  );
-  const { userroles } = useSelector(
-    (state) => state.userroleReducer
-  );
+  const { loading } = useSelector((state) => state.employeeReducer);
+
+  const { departments } = useSelector((state) => state.departmentReducer);
+  const { userroles } = useSelector((state) => state.userroleReducer);
 
   // const {loading} = useSelector(
   //   (state) => state.employeeReducer
@@ -88,11 +86,11 @@ export default function CreateUserView() {
 
   const handleSubmit = () => {
     const formData = new FormData();
-    formData.append('firstName',firstName);
-    formData.append('lastName',lastName);
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
     formData.append('employeeType', employeeType);
     formData.append('email', email);
-    formData.append('gender',gender);
+    formData.append('gender', gender);
     formData.append('employeeRole', role);
     formData.append('contactNo', contactNo);
     formData.append('joinedDate', joinedDate);
@@ -104,9 +102,23 @@ export default function CreateUserView() {
     formData.append('zipCode', zipCode);
 
     dispatch(addNewEmployee(formData));
-    // if(!loading){
-    //   navigate('/dashboard/employees');
-    // }
+    if (!loading) {
+      setFirstName('');
+      setLastName('');
+      setEmployeeType('');
+      setDepartment('');
+      setProfileImage(null);
+      setFile(null);
+      setGender('');
+      setUserRole('');
+      setJoinedDate('');
+      setEmail('');
+      setContactNo(null);
+      setAddress('');
+      setCity('');
+      setState('');
+      setZipCode();
+    }
   };
 
   const handleCancelClick = (event) => {
@@ -231,11 +243,9 @@ export default function CreateUserView() {
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
           >
-            {
-              departments.map((data)=>(
-                <MenuItem value={data._id}>{data.departmentName}</MenuItem>
-              ))
-            }
+            {departments.map((data) => (
+              <MenuItem value={data._id}>{data.departmentName}</MenuItem>
+            ))}
           </TextField>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -247,11 +257,9 @@ export default function CreateUserView() {
             value={role}
             onChange={(e) => setUserRole(e.target.value)}
           >
-            {
-              userroles.map((data)=>(
-                <MenuItem value={data.id}>{data.role}</MenuItem>
-              ))
-            }
+            {userroles.map((data) => (
+              <MenuItem value={data.id}>{data.role}</MenuItem>
+            ))}
           </TextField>
         </Grid>
         <Grid item xs={12} md={12}>

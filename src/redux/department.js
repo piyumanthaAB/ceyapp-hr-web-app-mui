@@ -86,28 +86,28 @@ export const addNewDepartment = (values) => async (dispatch) => {
   }
 };
 
-// export const removeDepartment = (id) => async (dispatch) => {
-//   try {
-//     dispatch(setLoading(true));
-//     const res = await axios.patch(
-//       `http://localhost:5000/api/v1/products/remove/${id}`,
-//       {},
-//       { withCredentials: true }
-//     );
-//     if (res.status === 200 || res.status === 201) {
-//       dispatch(setLoading(false));
-//       enqueueSnackbar(`${res.data.message}`, {
-//         variant: 'success',
-//       });
-//       dispatch(getInventories);
-//     }
-//   } catch (error) {
-//     dispatch(setLoading(false));
-//     enqueueSnackbar(`${error.message}`, {
-//       variant: 'error',
-//     });
-//   }
-// };
+export const removeDepartment = (id) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    const res = await axios.patch(
+      `http://localhost:5000/api/v1/department/remove/${id}`,
+      {},
+      { withCredentials: true }
+    );
+    if (res.status === 200 || res.status === 201) {
+      dispatch(setLoading(false));
+      enqueueSnackbar(`${res.data.message}`, {
+        variant: 'success',
+      });
+      dispatch(getDepartments);
+    }
+  } catch (error) {
+    dispatch(setLoading(false));
+    enqueueSnackbar(`${error.message}`, {
+      variant: 'error',
+    });
+  }
+};
 
 export const getDepartmentById = (id) => async (dispatch) => {
   try {

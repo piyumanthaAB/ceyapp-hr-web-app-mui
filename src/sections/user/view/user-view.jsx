@@ -160,6 +160,7 @@ export default function UserPage() {
                   .map((row) => (
                     <UserTableRow
                       key={row.id}
+                      id={row.id}
                       name={`${row.firstName} ${  row.lastName}`}
                       department={row.department.departmentName}
                       role={row.employeeRole.role}

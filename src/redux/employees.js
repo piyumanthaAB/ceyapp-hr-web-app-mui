@@ -84,28 +84,28 @@ export const addNewEmployee = (values) => async (dispatch) => {
   }
 };
 
-// export const removeDepartment = (id) => async (dispatch) => {
-//   try {
-//     dispatch(setLoading(true));
-//     const res = await axios.patch(
-//       `http://localhost:5000/api/v1/products/remove/${id}`,
-//       {},
-//       { withCredentials: true }
-//     );
-//     if (res.status === 200 || res.status === 201) {
-//       dispatch(setLoading(false));
-//       enqueueSnackbar(`${res.data.message}`, {
-//         variant: 'success',
-//       });
-//       dispatch(getInventories);
-//     }
-//   } catch (error) {
-//     dispatch(setLoading(false));
-//     enqueueSnackbar(`${error.message}`, {
-//       variant: 'error',
-//     });
-//   }
-// };
+export const removeEmployee = (id) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    const res = await axios.patch(
+      `http://localhost:5000/api/v1/employee/remove/${id}`,
+      {},
+      { withCredentials: true }
+    );
+    if (res.status === 200 || res.status === 201) {
+      dispatch(setLoading(false));
+      enqueueSnackbar(`${res.data.message}`, {
+        variant: 'success',
+      });
+      dispatch(getEmployees);
+    }
+  } catch (error) {
+    dispatch(setLoading(false));
+    enqueueSnackbar(`${error.message}`, {
+      variant: 'error',
+    });
+  }
+};
 
 export const getEmployeeById = (id) => async (dispatch) => {
   try {
