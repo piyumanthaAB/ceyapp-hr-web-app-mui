@@ -30,9 +30,7 @@ const userroleSlice = createSlice({
     },
     updateUserRole: (state, action) => {
       const updatedUserRole = action.payload;
-      const index = state.userroles.findIndex(
-        (userrole) => userrole._id === updatedUserRole._id
-      );
+      const index = state.userroles.findIndex((userrole) => userrole._id === updatedUserRole._id);
       if (index !== -1) {
         state.userroles[index] = updatedUserRole;
       }
@@ -46,7 +44,7 @@ export const { setUserRoles, setUserRole, addUserRole, updateUserRole, setLoadin
 export const getUserRoles = async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get('http://localhost:5000/api/v1/role', {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/role`, {
       withCredentials: true,
     });
     console.log(res);
@@ -67,7 +65,7 @@ export const getUserRoles = async (dispatch) => {
 export const addNewUserRole = (values) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.post('http://localhost:5000/api/v1/role', values, {
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/role`, values, {
       withCredentials: true,
     });
     console.log(res);
@@ -90,7 +88,7 @@ export const addNewUserRole = (values) => async (dispatch) => {
 //   try {
 //     dispatch(setLoading(true));
 //     const res = await axios.patch(
-//       `http://localhost:5000/api/v1/products/remove/${id}`,
+//       `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/products/remove/${id}`,
 //       {},
 //       { withCredentials: true }
 //     );
@@ -112,7 +110,7 @@ export const addNewUserRole = (values) => async (dispatch) => {
 export const getUserRoleById = (id) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get(`http://localhost:5000/api/v1/role/${id}`, {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/role/${id}`, {
       withCredentials: true,
     });
     if (res.status === 200 || res.status === 201) {
@@ -130,9 +128,13 @@ export const getUserRoleById = (id) => async (dispatch) => {
 export const updateUserRoleById = (id, values) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.patch(`http://localhost:5000/api/v1/role/${id}`, values, {
-      withCredentials: true,
-    });
+    const res = await axios.patch(
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/role/${id}`,
+      values,
+      {
+        withCredentials: true,
+      }
+    );
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
       enqueueSnackbar(`${res.data.message}`, {
@@ -152,7 +154,7 @@ export const removeUserRole = (id) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
     const res = await axios.patch(
-      `http://localhost:5000/api/v1/role/remove/${id}`,
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/role/remove/${id}`,
       {},
       { withCredentials: true }
     );

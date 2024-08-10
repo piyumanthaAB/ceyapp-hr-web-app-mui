@@ -43,9 +43,13 @@ export const { setUser, setLoading, setToken, setIsAuthenticated, initializeAuth
 export const login = (data) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const res = await axios.post('http://localhost:5000/api/v1/auth/login', data, {
-      withCredentials: true, // Ensure cookies are sent and received
-    });
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/auth/login`,
+      data,
+      {
+        withCredentials: true, // Ensure cookies are sent and received
+      }
+    );
     console.log(res);
     if (res.status === 200 || res.status === 201) {
       dispatch(setToken(res.data.data));
@@ -75,14 +79,14 @@ export const login = (data) => async (dispatch) => {
 export const getUserProfile = async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const res = await axios.get('http://localhost:5000/api/v1/auth/profile', {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/auth/profile`, {
       withCredentials: true,
     });
     console.log(res);
     if (res.status === 200 || res.status === 201) {
       dispatch(setUser(res.data.user));
       dispatch(setLoading(false));
-      sessionStorage.setItem("jwt",token);
+      sessionStorage.setItem('jwt', token);
     }
   } catch (error) {
     dispatch(setLoading(false));
@@ -94,16 +98,20 @@ export const getUserProfile = async (dispatch) => {
 
 export const logoutUser = async (dispatch) => {
   try {
-      const res = await axios.post('http://localhost:5000/api/v1/auth/logout', {},{
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/auth/logout`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
     console.log(res);
     if (res.status === 200 || res.status === 201) {
       dispatch(setUser(null));
       dispatch(setLoading(false));
       dispatch(setIsAuthenticated(false));
       dispatch(setToken(null));
-      sessionStorage.removeItem("jwt");
+      sessionStorage.removeItem('jwt');
     }
   } catch (error) {
     dispatch(setLoading(false));

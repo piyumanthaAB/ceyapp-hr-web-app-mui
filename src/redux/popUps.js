@@ -38,13 +38,12 @@ const popupSlice = createSlice({
   },
 });
 
-export const { setPopups, setPop, addPopup, updatePopup, setLoading } =
-  popupSlice.actions;
+export const { setPopups, setPop, addPopup, updatePopup, setLoading } = popupSlice.actions;
 
 export const getPopups = async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get('http://localhost:5000/api/v1/popup', {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/popup`, {
       withCredentials: true,
     });
     console.log(res);
@@ -54,8 +53,6 @@ export const getPopups = async (dispatch) => {
       dispatch(setPopups(popups));
       dispatch(setLoading(false));
     }
-    
-    
   } catch (error) {
     dispatch(setLoading(false));
     enqueueSnackbar(`${error.response.data.message}`, {
@@ -67,9 +64,13 @@ export const getPopups = async (dispatch) => {
 export const addNewPopup = (values) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.post('http://localhost:5000/api/v1/popup', values, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/popup`,
+      values,
+      {
+        withCredentials: true,
+      }
+    );
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
       enqueueSnackbar(`${res.data.message}`, {
@@ -89,7 +90,7 @@ export const addNewPopup = (values) => async (dispatch) => {
 //   try {
 //     dispatch(setLoading(true));
 //     const res = await axios.patch(
-//       `http://localhost:5000/api/v1/products/remove/${id}`,
+//       `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/products/remove/${id}`,
 //       {},
 //       { withCredentials: true }
 //     );
@@ -111,7 +112,7 @@ export const addNewPopup = (values) => async (dispatch) => {
 export const getPopupById = (id) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get(`http://localhost:5000/api/v1/popup/${id}`, {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/popup/${id}`, {
       withCredentials: true,
     });
     if (res.status === 200 || res.status === 201) {
@@ -129,9 +130,13 @@ export const getPopupById = (id) => async (dispatch) => {
 export const updatePopupById = (id, values) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.patch(`http://localhost:5000/api/v1/popup/${id}`, values, {
-      withCredentials: true,
-    });
+    const res = await axios.patch(
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/popup/${id}`,
+      values,
+      {
+        withCredentials: true,
+      }
+    );
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
       enqueueSnackbar(`${res.data.message}`, {

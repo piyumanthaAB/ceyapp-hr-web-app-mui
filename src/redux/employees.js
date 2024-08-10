@@ -44,7 +44,7 @@ export const { setEmployees, setEmployee, addEmployee, updateEmployee, setLoadin
 export const getEmployees = async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get('http://localhost:5000/api/v1/employee', {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/employee`, {
       withCredentials: true,
     });
     console.log(res);
@@ -66,9 +66,13 @@ export const getEmployees = async (dispatch) => {
 export const addNewEmployee = (values) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.post('http://localhost:5000/api/v1/employee', values, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/employee`,
+      values,
+      {
+        withCredentials: true,
+      }
+    );
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
       enqueueSnackbar(`${res.data.message}`, {
@@ -88,7 +92,7 @@ export const removeEmployee = (id) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
     const res = await axios.patch(
-      `http://localhost:5000/api/v1/employee/remove/${id}`,
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/employee/remove/${id}`,
       {},
       { withCredentials: true }
     );
@@ -110,9 +114,12 @@ export const removeEmployee = (id) => async (dispatch) => {
 export const getEmployeeById = (id) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
-    const res = await axios.get(`http://localhost:5000/api/v1/employee/${id}`, {
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/employee/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
       dispatch(setEmployee(res.data.data));
@@ -130,9 +137,13 @@ export const updateEmployeeById = (id, values) => async (dispatch) => {
     console.log(id);
     console.log(values);
     dispatch(setLoading(true));
-    const res = await axios.patch(`http://localhost:5000/api/v1/employee/${id}`, values, {
-      withCredentials: true,
-    });
+    const res = await axios.patch(
+      `${import.meta.env.VITE_BACKEND_API_DOMAIN}/api/v1/employee/${id}`,
+      values,
+      {
+        withCredentials: true,
+      }
+    );
     if (res.status === 200 || res.status === 201) {
       dispatch(setLoading(false));
       enqueueSnackbar(`${res.data.message}`, {
